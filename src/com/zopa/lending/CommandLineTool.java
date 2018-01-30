@@ -31,6 +31,7 @@ public class CommandLineTool {
 	/** Exit status for market related errors. */
 	private static final int MARKET_ERROR_STATUS = -2;
 
+	/** Exit status for loan amount errors. */
 	private static final int INCORRECT_LOAN_AMOUNT_STATUS = -3;
   
 	
