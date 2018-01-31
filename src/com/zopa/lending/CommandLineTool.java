@@ -48,6 +48,11 @@ public class CommandLineTool {
     // instantiations.
   }
 
+  /**
+   * Checks whether the parameters are correct and request the loan quote.
+   * 
+   * Where the magic begins ...
+   */
   public static void main(String[] args) {
     if (args.length != NUMBER_OF_MANDATORY_ARGUMENTS) {
       System.out.println(
@@ -97,6 +102,7 @@ public class CommandLineTool {
     System.exit(0);
   }
 
+  /** Prints the quote. */
   private static void printLoanQuote(LoanQuote quote) {
     NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.UK);
     NumberFormat percentageFormatter = NumberFormat.getPercentInstance();
