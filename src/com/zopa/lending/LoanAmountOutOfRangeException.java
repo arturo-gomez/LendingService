@@ -1,5 +1,6 @@
 package com.zopa.lending;
 
+/** Exception to be thrown when the amount requested is out of the accepted range. */
 public class LoanAmountOutOfRangeException extends Exception {
 	
 	private static final long serialVersionUID = 3235165367934889572L;

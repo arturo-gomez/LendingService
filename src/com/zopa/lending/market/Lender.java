@@ -1,5 +1,6 @@
 package com.zopa.lending.market;
 
+/** Lender abstraction. */
 public class Lender {
 	
 	private final String name;
@@ -12,14 +13,17 @@ public class Lender {
 		this.amount = amount;
 	}
 
+	/** Returns the lender name. */
 	public String getName() {
 		return name;
 	}
 
+	/** Returns the interest rate from this lender. */
 	public Double getRate() {
 		return rate;
 	}
 
+	/** Returns the amount available from this lender. */
 	public int getAmount() {
 		return amount;
 	}

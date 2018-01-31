@@ -5,11 +5,15 @@ import java.util.List;
 
 import com.zopa.lending.market.Lender;
 
+/**
+ * Tracks the breakdown of lenders for a Loan together with other key figures
+ * for a loan quote.
+ */
 public class LoanQuote {
-	
-	private int remainingAmount;
-	private final int requestedAmount;
-	private final List<LoanLineItem> loanBreakdown;
+
+  private int remainingAmount;
+  private final int requestedAmount;
+  private final List<LoanLineItem> loanBreakdown;
 	private final int loanLengthInMonths;
 	
 	LoanQuote(int loanAmount, int loanLengthInMonths) {
@@ -19,35 +23,50 @@ public class LoanQuote {
 		loanBreakdown = new ArrayList<LoanLineItem>();
 	}
 	
-	double getRate() {
-	  return -1;
-	}
-	
+	/** Returns the total amount requested by the borrower. */
 	int getRequestedAmount() {
-	  return requestedAmount;
-	}
+    return requestedAmount;
+  }
 	
-	double getMonthlyRepayment() {
-	  return -1.0;
-	}
-	
+	/** Returns the total amount to be paid by the borrower. */
 	double getTotalRepayment() {
-	  return -1.0;
+    double rate = 1 + getRate();
+    return requestedAmount * rate;
+  }
+	
+	/** Returns the overall interest rate to be paid for this quote. */
+	double getRate() {
+	  double weightedSum = loanBreakdown.stream()
+	      .mapToDouble(item -> item.getRate() * item.getAmount())
+	      .sum();
+	  return weightedSum / requestedAmount;
 	}
 	
+	/** Returns the monthly re-payment for this quote. */
+	double getMonthlyRepayment() {
+	  double totalRepayment = getTotalRepayment();
+	  return totalRepayment / loanLengthInMonths;
+	}
+	
+	/** Returns true if the amount requested has been borrowed already. */
 	boolean isSatisfied() {
-		return remainingAmount == 0;
-	}
+    return remainingAmount == 0;
+  }
 
-	void borrowFrom(Lender lender) {
-		int amountAvailable = lender.getAmount();
-		int amount = (amountAvailable > remainingAmount) ? remainingAmount : amountAvailable;
-		loanBreakdown.add(new LoanLineItem(amount, lender.getRate()));
-		remainingAmount -= amount;
-	}
-	
-	private static class LoanLineItem {
-		private final int amount;
+  /**
+   * Borrows money from this {@code lender}. If this lender has not enough money
+   * available, it will borrow all and update the remaining amount needed.
+   */
+  void borrow(Lender lender) {
+    int amountAvailable = lender.getAmount();
+    int amount = (amountAvailable > remainingAmount) ? remainingAmount : amountAvailable;
+    loanBreakdown.add(new LoanLineItem(amount, lender.getRate()));
+    remainingAmount -= amount;
+  }
+
+  /** Internal class to track the loan breakdown by lender. */
+  private static class LoanLineItem {
+    private final int amount;
 		private final double rate;
 		
 		private LoanLineItem(int amount, double rate) {
