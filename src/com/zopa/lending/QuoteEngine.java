@@ -65,7 +65,7 @@ public class QuoteEngine {
   /**
    * Finds the combination of lenders that minimizes the interest rate to cover the amount requested.
    * 
-   * @returns A quote with the market's lowest interest rate.
+   * @return A quote with the market's lowest interest rate.
    */
   private LoanQuote getLowestRateLoan(List<Lender> lenders, int loanAmount, int loanLengthInMonths)
       throws NotEnoughMarketFundsException {
