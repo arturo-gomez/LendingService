@@ -27,5 +27,18 @@ public class Lender {
 	public int getAmount() {
 		return amount;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+	  if (obj.getClass() != Lender.class) {
+	    return false;
+	  }
+	  
+	  Lender lender = (Lender) obj;
+	  
+	  return name.equals(lender.getName())
+	      && rate.equals(lender.getRate())
+	      && (amount == lender.getAmount());
+	}
 
 }

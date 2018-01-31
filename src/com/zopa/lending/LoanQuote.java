@@ -56,12 +56,15 @@ public class LoanQuote {
   /**
    * Borrows money from this {@code lender}. If this lender has not enough money
    * available, it will borrow all and update the remaining amount needed.
+   * 
+   * @return the amount that is not yet borrowed from the loan amount.
    */
-  void borrow(Lender lender) {
+  int borrow(Lender lender) {
     int amountAvailable = lender.getAmount();
     int amount = (amountAvailable > remainingAmount) ? remainingAmount : amountAvailable;
     loanBreakdown.add(new LoanLineItem(amount, lender.getRate()));
     remainingAmount -= amount;
+    return remainingAmount;
   }
 
   /** Internal class to track the loan breakdown by lender. */

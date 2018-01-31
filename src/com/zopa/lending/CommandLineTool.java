@@ -54,7 +54,7 @@ public class CommandLineTool {
    * Where the magic begins ...
    */
   public static void main(String[] args) {
-    if (args.length != NUMBER_OF_MANDATORY_ARGUMENTS) {
+    if (args.length < NUMBER_OF_MANDATORY_ARGUMENTS) {
       System.out.println(
           "Usage: java -jar LoanQuote.jar [market_file] [loan_amount] [optional loan_length]");
       System.exit(MISSING_REQUIRED_ARGUMENTS_STATUS);
