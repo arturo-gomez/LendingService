@@ -14,42 +14,42 @@ public class LoanQuote {
   private int remainingAmount;
   private final int requestedAmount;
   private final List<LoanLineItem> loanBreakdown;
-	private final int loanLengthInMonths;
-	
-	LoanQuote(int loanAmount, int loanLengthInMonths) {
-		remainingAmount = loanAmount;
-		requestedAmount = loanAmount;
-		this.loanLengthInMonths = loanLengthInMonths;
-		loanBreakdown = new ArrayList<LoanLineItem>();
-	}
-	
-	/** Returns the total amount requested by the borrower. */
-	int getRequestedAmount() {
+  private final int loanLengthInMonths;
+
+  LoanQuote(int loanAmount, int loanLengthInMonths) {
+    remainingAmount = loanAmount;
+    requestedAmount = loanAmount;
+    this.loanLengthInMonths = loanLengthInMonths;
+    loanBreakdown = new ArrayList<LoanLineItem>();
+  }
+
+  /** Returns the total amount requested by the borrower. */
+  int getRequestedAmount() {
     return requestedAmount;
   }
-	
-	/** Returns the total amount to be paid by the borrower. */
-	double getTotalRepayment() {
+
+  /** Returns the total amount to be paid by the borrower. */
+  double getTotalRepayment() {
     double rate = 1 + getRate();
     return requestedAmount * rate;
   }
-	
-	/** Returns the overall interest rate to be paid for this quote. */
-	double getRate() {
-	  double weightedSum = loanBreakdown.stream()
-	      .mapToDouble(item -> item.getRate() * item.getAmount())
-	      .sum();
-	  return weightedSum / requestedAmount;
-	}
-	
-	/** Returns the monthly re-payment for this quote. */
-	double getMonthlyRepayment() {
-	  double totalRepayment = getTotalRepayment();
-	  return totalRepayment / loanLengthInMonths;
-	}
-	
-	/** Returns true if the amount requested has been borrowed already. */
-	boolean isSatisfied() {
+
+  /** Returns the overall interest rate to be paid for this quote. */
+  double getRate() {
+    double weightedSum = loanBreakdown.stream()
+        .mapToDouble(item -> item.getRate() * item.getAmount())
+        .sum();
+    return weightedSum / requestedAmount;
+  }
+
+  /** Returns the monthly re-payment for this quote. */
+  double getMonthlyRepayment() {
+    double totalRepayment = getTotalRepayment();
+    return totalRepayment / loanLengthInMonths;
+  }
+
+  /** Returns true if the amount requested has been borrowed already. */
+  boolean isSatisfied() {
     return remainingAmount == 0;
   }
 
@@ -70,12 +70,12 @@ public class LoanQuote {
   /** Internal class to track the loan breakdown by lender. */
   private static class LoanLineItem {
     private final int amount;
-		private final double rate;
-		
-		private LoanLineItem(int amount, double rate) {
-			this.amount = amount;
-			this.rate = rate;
-		}
+    private final double rate;
+
+    private LoanLineItem(int amount, double rate) {
+      this.amount = amount;
+      this.rate = rate;
+    }
 
     public int getAmount() {
       return amount;
@@ -84,6 +84,6 @@ public class LoanQuote {
     public double getRate() {
       return rate;
     }
-	}
+  }
 
 }
